@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../Api/authContext";
 import { Outlet } from "react-router-dom";
-import Spinner from "../Components/Loader/spinner";
+import Spinner from "../Components/Loader/Spinner";
 import axios from "axios";
 
 const Private = () => {
