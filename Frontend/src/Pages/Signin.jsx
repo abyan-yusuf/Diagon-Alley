@@ -116,7 +116,7 @@ const Signin = () => {
                     required
                     {...register("password")}
                   />
-                  <Link className="text-sm font-medium" href="/forgot-password">
+                  <Link className="text-sm font-medium" to={"/forgot-password"}>
                     Forgot Password?
                   </Link>
                 </div>
