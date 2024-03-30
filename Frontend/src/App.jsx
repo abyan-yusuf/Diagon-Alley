@@ -9,7 +9,7 @@ import NotFound from "./Pages/NotFound";
 import Signup from "./Pages/Signup";
 import Signin from "./Pages/Signin";
 import Dashboard from "./Pages/Dashboard";
-import Spinner from "./Components/Loader/spinner";
+import Spinner from "./Components/Loader/Spinner";
 import Private from "./Routes/Private";
 import ForgotPassword from "./Pages/ForgotPassword";
 
