@@ -10,26 +10,28 @@ import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const { register, handleSubmit } = useForm();
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     console.log(data);
 
     try {
       const response = await axios.post(
         "http://localhost:3582/api/v1/users/register",
-        {name: data?.name, email: data?.email, password: data?.password, phone: data?.phone, address: data?.address, securityQuestion: data?.securityQuestion, securityAnswer: data?.securityAnswer}
+        {
+          name: data?.name,
+          email: data?.email,
+          password: data?.password,
+          phone: data?.phone,
+          address: data?.address,
+          securityQuestion: data?.securityQuestion,
+          securityAnswer: data?.securityAnswer,
+        }
       );
 
       console.log(response);
       if (response.data.message === "successfully created") {
-        toast.success("Successfully created your account!!", {
-          position: "bottom-left",
-          closeOnClick: false,
-          closeButton: (
-            <div className="flex items-center pe-5">
-              <Link to={"/signin"}>Login</Link>
-            </div>
-          ),
-        });
+        toast.success("Successfully created your account!!");
+        navigate("/signin");
       }
     } catch (error) {
       console.log(error);

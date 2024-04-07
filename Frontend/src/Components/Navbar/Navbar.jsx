@@ -3,12 +3,16 @@ import Logo from "/Logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../Api/authContext";
 import toast from "react-hot-toast";
+import ChevronRight from "../../../public/chevron-right.svg"
 
 const Navbar = () => {
   const [homeActive, setHomeActive] = useState(false);
   const [productActive, setProductActive] = useState(false);
   const [auth, setAuth] = useAuthContext();
-
+  const [open, setOpen] = useState(true);
+  const handleHover = () => {
+    setOpen(!open);
+  };
   const handleLogout = () => {
     localStorage.removeItem("auth");
     setAuth({
@@ -19,7 +23,7 @@ const Navbar = () => {
     toast.success("Successfully logged out");
   };
   return (
-    <div className="navbar bg-base-100 border-b-2 shadow-lg">
+    <div className="navbar bg-base-100 border-b-2 shadow-lg z-0">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -116,13 +120,35 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="navbar-end space-x-5">
-          <NavLink
-            className="rounded-lg px-4 py-2 border-2 hover:bg-white hover:border-black hover:text-black transition-colors ease-in duration-500 font-semibold border-black bg-black text-white min-h-[2rem]"
-            to={"/signin"}
-            onClick={handleLogout}
-          >
-            Logout
-          </NavLink>
+          <div className="dropdown dropdown-hover"
+              onMouseEnter={handleHover}
+              onMouseLeave={handleHover}>
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn m-1 bg-transparent border-none shadow-none hover:bg-transparent text-base font-semibold"
+            >
+                <img src={ChevronRight} height={2} width={20} className={open?"rotate-0 transition-transform":"rotate-90 transition-transform"} />
+              {auth?.user?.name}
+            </div>
+            <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-36"
+            >
+              <li>
+                <NavLink to={"/dashboard"} className={"font-medium"}>Dashboard</NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/signin"}
+                  onClick={handleLogout}
+                  className="text-red-700 font-medium"
+                >
+                  Logout
+                </NavLink>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </div>
