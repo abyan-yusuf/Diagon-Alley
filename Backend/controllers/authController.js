@@ -1,6 +1,7 @@
 import User from "../models/authModel.js";
 import JWT from "jsonwebtoken";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
+
 export const registerUser = async (req, res) => {
   try {
     const {
@@ -47,7 +48,7 @@ export const registerUser = async (req, res) => {
       securityAnswer,
     });
     newUser.save();
-
+    const user = await User.findOne({ email });
     res.status(201).send({ message: "successfully created" });
   } catch (error) {
     res.send(404).send({ error: error });
@@ -63,6 +64,7 @@ export const loginUser = async (req, res) => {
         .send({ message: "Please enter your email address and password" });
     }
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) {
       return res.status(400).send({ message: "User does not exists" });
     }
@@ -130,7 +132,7 @@ export const getSecurityQuestion = async (req, res) => {
     }
     const user = await User.findOne({ email });
     if (!user) {
-      res.status(404).send({ message: "No user found with this email" })
+      res.status(404).send({ message: "No user found with this email" });
     }
     console.log(user);
     res.status(200).send(user?.securityQuestion);

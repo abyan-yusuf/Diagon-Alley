@@ -13,10 +13,10 @@ const Layout = ({ children, titleText, desc, author, keywords }) => {
         <meta name="author" content={author} />
         <meta name="keywords" content={keywords} />
       </Helmet>
-      <header className="fixed w-full">
+      <header className="sticky top-0 w-full z-50">
         <Navbar />
       </header>
-      <main className="min-h-screen pt-20">
+      <main className="min-h-screen px-2">
         <Toaster />
         {children}
         </main>

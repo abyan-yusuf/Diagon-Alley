@@ -15,8 +15,19 @@ router.post("/login", loginUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/get-sec-ques", getSecurityQuestion);
 router.get("/users", requireSignin, isAdmin, allUsers);
-router.get("/user-auth", requireSignin, (req, res) =>
-  res.status(200).send({ ok: true })
-);
+router.get("/user-auth", requireSignin, (req, res) => {
+  try {
+    res.status(200).send({ ok: true });
+  } catch (error) {
+    res.status(404).send({ error });
+  }
+});
+router.get("/admin-auth", requireSignin, isAdmin, (req, res) => {
+  try {
+    res.status(200).send({ ok: true });
+  } catch (error) {
+    res.status(404).send({ error });
+  }
+});
 
 export default router;

@@ -23,6 +23,7 @@ const Signup = () => {
           password: data?.password,
           phone: data?.phone,
           address: data?.address,
+          admin: false,
           securityQuestion: data?.securityQuestion,
           securityAnswer: data?.securityAnswer,
         }

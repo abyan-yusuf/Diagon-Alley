@@ -5,11 +5,7 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   return (
     <Layout>
-      <div className="flex justify-end">
-        <Link to={"/"} className="hover:text-red-700 me-5">
-          Home
-        </Link>
-      </div>
+      User Dashboard
     </Layout>
   );
 };

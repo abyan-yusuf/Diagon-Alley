@@ -3,7 +3,7 @@ import Logo from "/Logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../Api/authContext";
 import toast from "react-hot-toast";
-import ChevronRight from "../../../public/chevron-right.svg"
+import ChevronRight from "/chevron-right.svg"
 
 const Navbar = () => {
   const [homeActive, setHomeActive] = useState(false);
@@ -23,7 +23,7 @@ const Navbar = () => {
     toast.success("Successfully logged out");
   };
   return (
-    <div className="navbar bg-base-100 border-b-2 shadow-lg z-0">
+    <div className="navbar bg-base-100 border-b-2 shadow-lg z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -120,23 +120,38 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="navbar-end space-x-5">
-          <div className="dropdown dropdown-hover"
-              onMouseEnter={handleHover}
-              onMouseLeave={handleHover}>
+          <div
+            className="dropdown dropdown-hover"
+            onMouseEnter={handleHover}
+            onMouseLeave={handleHover}
+          >
             <div
               tabIndex={0}
               role="button"
               className="btn m-1 bg-transparent border-none shadow-none hover:bg-transparent text-base font-semibold"
             >
-                <img src={ChevronRight} height={2} width={20} className={open?"rotate-0 transition-transform":"rotate-90 transition-transform"} />
+              <img
+                src={ChevronRight}
+                width={20}
+                className={
+                  open
+                    ? "rotate-0 transition-transform"
+                    : "rotate-90 transition-transform"
+                }
+              />
               {auth?.user?.name}
             </div>
             <ul
-                tabIndex={0}
-                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-36"
+              tabIndex={0}
+              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box "
             >
               <li>
-                <NavLink to={"/dashboard"} className={"font-medium"}>Dashboard</NavLink>
+                <NavLink
+                  to={`/dashboard/${auth?.user?.admin ? `admin` : `user`}`}
+                  className={"font-medium"}
+                >
+                  Dashboard
+                </NavLink>
               </li>
               <li>
                 <NavLink
