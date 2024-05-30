@@ -3,6 +3,7 @@ import {
   registerUser,
   loginUser,
   allUsers,
+  deleteUser,
   forgotPassword,
   getSecurityQuestion,
 } from "../controllers/authController.js";
@@ -12,6 +13,7 @@ const router = Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
+router.delete("/delete/:id", requireSignin, deleteUser);
 router.post("/forgot-password", forgotPassword);
 router.post("/get-sec-ques", getSecurityQuestion);
 router.get("/users", requireSignin, isAdmin, allUsers);

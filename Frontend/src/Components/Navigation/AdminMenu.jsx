@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 const AdminMenu = () => {
   return (
     <>
-      <h1 className="text-2xl text-center">Admin Menu</h1>
+      <h1 className="text-2xl text-center mb-3">Admin Menu</h1>
       <ul className="menu w-full p-0">
-        <li className="border-t-2 border-e-2 border-s-2">
+        <li className="border-2 border-b-0">
           <NavLink
             to={"/dashboard/admin/create-category"}
             className={({ isActive }) =>
@@ -19,7 +19,7 @@ const AdminMenu = () => {
             Create Category
           </NavLink>
         </li>
-        <li className="border-t-2 border-e-2 border-s-2">
+        <li className="border-2 border-b-0">
           <NavLink
             to={"/dashboard/admin/create-product"}
             className={({ isActive }) =>
@@ -32,7 +32,7 @@ const AdminMenu = () => {
             Create Product
           </NavLink>
         </li>
-        <li className="border-t-2 border-b-2 border-e-2 border-s-2">
+        <li className="border-2">
           <NavLink
             to={"/dashboard/admin/all-users"}
             className={({ isActive }) =>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import Footer from "../Components/Footer/Footer";
-import Navbar from "../Components/Navbar/Navbar";
+import Navbar from "../Components/Navigation/Navbar";
 import { Toaster } from "react-hot-toast";
 
 const Layout = ({ children, titleText, desc, author, keywords }) => {

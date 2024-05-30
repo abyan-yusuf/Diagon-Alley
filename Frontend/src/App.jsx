@@ -5,14 +5,16 @@ import Products from "./Pages/Products";
 import NotFound from "./Pages/NotFound";
 import Signup from "./Pages/Signup";
 import Signin from "./Pages/Signin";
-import Dashboard from "./Pages/UserDashboard";
+import Dashboard from "./Pages/Dashboard/UserDashboard/UserDashboard";
 import Private from "./Routes/DashboardRoute";
 import ForgotPassword from "./Pages/ForgotPassword";
 import AdminRoute from "./Routes/AdminRoute";
-import AdminDashboard from "./Pages/AdminDashboard";
-import CreateCategory from "./Pages/CreateCategory";
-import CreateProduct from "./Pages/CreateProduct";
-import AllUsers from "./Pages/AllUsers";
+import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
+import CreateCategory from "./Pages/Dashboard/AdminDashboard/CreateCategory";
+import CreateProduct from "./Pages/Dashboard/AdminDashboard/CreateProduct";
+import AllUsers from "./Pages/Dashboard/AdminDashboard/AllUsers";
+import Profile from "./Pages/Dashboard/UserDashboard/Profile";
+import Orders from "./Pages/Dashboard/UserDashboard/Orders";
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
       <Route path="/signin" element={<Signin />} />
       <Route path="/dashboard" element={<Private />}>
         <Route path="user" element={<Dashboard />} />
+        <Route path="user/profile" element={<Profile />} />
+        <Route path="user/orders" element={<Orders />} />
       </Route>
       <Route path="/dashboard" element={<AdminRoute />}>
         <Route path="admin" element={<AdminDashboard />} />

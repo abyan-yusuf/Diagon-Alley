@@ -1,12 +1,6 @@
-import React, { useEffect } from "react";
 import Layout from "../Layout/Layout";
-import { useAuthContext } from "../Api/authContext";
-import { json } from "react-router-dom/dist/umd/react-router-dom.development";
-import toast from "react-hot-toast";
 
 const Home = () => {
-  const [auth, setAuth] = useAuthContext();
-
   return (
     <Layout
       titleText="Home | Diagon Alley"
@@ -17,7 +11,6 @@ const Home = () => {
       keywords={"Diagon Alley Home, Diagon Alley"}
     >
       Home
-      <pre>{JSON.stringify(auth, null, 4)}</pre>
     </Layout>
   );
 };

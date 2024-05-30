@@ -3,7 +3,8 @@ import Logo from "/Logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../Api/authContext";
 import toast from "react-hot-toast";
-import ChevronRight from "/chevron-right.svg"
+import axios from "axios"
+import ChevronRight from "/chevron-right.svg";
 
 const Navbar = () => {
   const [homeActive, setHomeActive] = useState(false);
@@ -21,6 +22,28 @@ const Navbar = () => {
       token: "",
     });
     toast.success("Successfully logged out");
+  };
+  const handleDelete =  async () => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:3582/api/v1/users/delete/${auth?.user?._id}`,
+        {
+          headers: {
+            Authorization: auth?.token
+          }
+        }
+      );
+      localStorage.removeItem("auth");
+      setAuth({
+        ...auth,
+        user: null,
+        token: "",
+      });
+      toast.success("Successfully deleted account");
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
   };
   return (
     <div className="navbar bg-base-100 border-b-2 shadow-lg z-50">
@@ -55,8 +78,9 @@ const Navbar = () => {
           </ul>
         </div>
         <Link
-          className="btn btn-ghost text-xl h-fit p-0 border-0 focus:transform-none active:hover:transform-none"
+          className="btn btn-ghost text-xl h-fit p-0 border-0 focus:transform-none animate-none focus-visible:outline-none active:hover:transform-none transition-none duration-0"
           to={"/"}
+          onClick={(event) => event.preventDefault()}
         >
           <img src={Logo} className="w-[280px]" />
         </Link>
@@ -160,6 +184,15 @@ const Navbar = () => {
                   className="text-red-700 font-medium"
                 >
                   Logout
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={"/signin"}
+                  onClick={handleDelete}
+                  className="text-red-700 font-medium"
+                >
+                  Delete Account
                 </NavLink>
               </li>
             </ul>

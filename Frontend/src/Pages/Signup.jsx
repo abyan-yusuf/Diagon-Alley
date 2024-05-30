@@ -43,7 +43,7 @@ const Signup = () => {
       ) {
         toast.error(
           <div>
-            User already exists!{" "}
+            This email or phone is already used in another account{" "}
             <Link
               to={"/"}
               className="underline underline-offset-4 hover:no-underline"
