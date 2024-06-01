@@ -3,7 +3,7 @@ import Logo from "/Logo.png";
 import { Link, NavLink } from "react-router-dom";
 import { useAuthContext } from "../../Api/authContext";
 import toast from "react-hot-toast";
-import axios from "axios"
+import axios from "axios";
 import ChevronRight from "/chevron-right.svg";
 
 const Navbar = () => {
@@ -23,14 +23,14 @@ const Navbar = () => {
     });
     toast.success("Successfully logged out");
   };
-  const handleDelete =  async () => {
+  const handleDelete = async () => {
     try {
       const response = await axios.delete(
         `http://localhost:3582/api/v1/users/delete/${auth?.user?._id}`,
         {
           headers: {
-            Authorization: auth?.token
-          }
+            Authorization: auth?.token,
+          },
         }
       );
       localStorage.removeItem("auth");
@@ -40,9 +40,9 @@ const Navbar = () => {
         token: "",
       });
       toast.success("Successfully deleted account");
-      console.log(response)
+      console.log(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   return (

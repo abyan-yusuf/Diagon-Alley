@@ -15,6 +15,9 @@ const Signin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [auth, setAuth] = useAuthContext();
+  if (auth) {
+    localStorage.removeItem("auth")
+  }
 
   const onSubmit = async (data) => {
     console.log(data);
