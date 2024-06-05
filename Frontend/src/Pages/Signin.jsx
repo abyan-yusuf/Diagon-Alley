@@ -15,7 +15,7 @@ const Signin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [auth, setAuth] = useAuthContext();
-  if (auth) {
+  if (auth.user) {
     localStorage.removeItem("auth")
   }
 

@@ -10,6 +10,7 @@ const Navbar = () => {
   const [homeActive, setHomeActive] = useState(false);
   const [productActive, setProductActive] = useState(false);
   const [auth, setAuth] = useAuthContext();
+  const [signedIn, setSignedIn] = useState(false);
   const [open, setOpen] = useState(true);
   const handleHover = () => {
     setOpen(!open);
