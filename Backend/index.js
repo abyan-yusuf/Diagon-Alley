@@ -9,8 +9,10 @@ import connectDB from './config/db.js';
 app.use(express.json());
 app.use(cors())
 import categoryRouter from './routes/categoryRouter.js'
+import productRouter from './routes/productRouter.js'
 import authRouter from './routes/authRouter.js'
 app.use('/api/v1/categories', categoryRouter)
+app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', authRouter)
 
 app.get('/', (req, res) => {

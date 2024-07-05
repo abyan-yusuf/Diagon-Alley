@@ -56,7 +56,7 @@ const ForgotPassword = () => {
       titleText="Reset Password | Diagon Alley"
       author={"Abyan"}
       desc={
-        "This is the password reseting page! If you forgot your password reset it!"
+        "This is the password reseting page! If you forgot your password you can reset it!"
       }
       keywords={
         "Reset Password, Forgot Password, Diagon Alley, Diagon Alley Reset Password"

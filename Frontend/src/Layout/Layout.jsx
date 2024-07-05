@@ -16,7 +16,7 @@ const Layout = ({ children, titleText, desc, author, keywords }) => {
       <header className="sticky top-0 w-full z-50">
         <Navbar />
       </header>
-      <main className="min-h-screen px-2">
+      <main className="min-h-screen mb-10">
         <Toaster />
         {children}
         </main>

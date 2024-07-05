@@ -4,11 +4,11 @@ import { NavLink } from "react-router-dom";
 const AdminMenu = () => {
   return (
     <>
-      <h1 className="text-2xl text-center mb-3">Admin Menu</h1>
-      <ul className="menu w-full p-0">
-        <li className="border-2 border-b-0">
+      <ul className="menu w-1/4 h-full p-0 overflow-y-scroll no-scrollbar fixed border-r-2">
+        <h2 className="text-3xl text-center mb-10">Admin Menu</h2>
+        <li className="border-b-2">
           <NavLink
-            to={"/dashboard/admin/create-category"}
+            to={"/dashboard/admin/manage-category"}
             className={({ isActive }) =>
               [
                 isActive ? "bg-gray-200" : "",
@@ -16,12 +16,12 @@ const AdminMenu = () => {
               ].join(" ")
             }
           >
-            Create Category
+            Categories
           </NavLink>
         </li>
-        <li className="border-2 border-b-0">
+        <li className="border-b-2">
           <NavLink
-            to={"/dashboard/admin/create-product"}
+            to={"/dashboard/admin/manage-product"}
             className={({ isActive }) =>
               [
                 isActive ? "bg-gray-200" : "",
@@ -29,10 +29,10 @@ const AdminMenu = () => {
               ].join(" ")
             }
           >
-            Create Product
+            Products
           </NavLink>
         </li>
-        <li className="border-2">
+        <li className="border-b-2">
           <NavLink
             to={"/dashboard/admin/all-users"}
             className={({ isActive }) =>

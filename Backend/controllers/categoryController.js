@@ -11,8 +11,8 @@ export const createCategory = async (req, res) => {
     if (existingCategory) {
       return res.status(200).send({ message: "Category already exists" });
     }
-    const newCategory = await Categories({ name, slug: slugify(name) });
-    newCategory.save();
+    const newCategory = new Categories({ name, slug: slugify(name) });
+    await newCategory.save();
     res
       .status(200)
       .send({ message: "Successfully created new category", newCategory });
@@ -44,6 +44,27 @@ export const getCategory = async (req, res) => {
   try {
     const category = await Categories.find({})
     res.status(200).send({ message: "All Categories", category })
+  } catch (error) {
+    res.status(404).send({ error })
+  }
+
+}
+
+export const getCategoryByName = async (req, res) => {
+  try {
+    const { slug } = req.params
+    const category = await Categories.findOne({slug})
+    res.status(200).send({ category })
+  } catch (error) {
+    res.status(404).send({ error })
+  }
+}
+
+export const deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params
+    const category = await Categories.findByIdAndDelete(id)
+    res.status(200).send({ message: "Successfully deleted" })
   } catch (error) {
     res.status(404).send({ error })
   }

@@ -4,10 +4,7 @@ import { Link } from "react-router-dom";
 import Logo from "/Title_Logo.png";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import {
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../Api/authContext";
 const Signin = () => {
@@ -15,13 +12,10 @@ const Signin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [auth, setAuth] = useAuthContext();
-  if (auth.user) {
-    localStorage.removeItem("auth")
-  }
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
+      console.log(data);
       const response = await axios.post(
         "http://localhost:3582/api/v1/users/login",
         data
@@ -60,7 +54,7 @@ const Signin = () => {
     <Layout
       titleText="Signin | Diagon Alley"
       author={"Abyan"}
-      desc={"This is the sign in page! Sign in or Sign up"}
+      desc={"This is the sign in page! Sign in or Sign up if you don't have an account"}
       keywords={"Sign In, Diagon Alley, Diagon Alley Signin"}
     >
       <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -72,7 +66,7 @@ const Signin = () => {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?
             <Link
               to="/signup"
               title=""
@@ -125,12 +119,10 @@ const Signin = () => {
                 </div>
               </div>
               <div>
-                <button
+                <input
                   type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
-                >
-                  Sign In
-                </button>
+                />
               </div>
             </div>
           </form>

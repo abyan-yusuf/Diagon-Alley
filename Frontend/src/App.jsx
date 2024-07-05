@@ -10,15 +10,19 @@ import Private from "./Routes/DashboardRoute";
 import ForgotPassword from "./Pages/ForgotPassword";
 import AdminRoute from "./Routes/AdminRoute";
 import AdminDashboard from "./Pages/Dashboard/AdminDashboard/AdminDashboard";
-import CreateCategory from "./Pages/Dashboard/AdminDashboard/CreateCategory";
-import CreateProduct from "./Pages/Dashboard/AdminDashboard/CreateProduct";
-import AllUsers from "./Pages/Dashboard/AdminDashboard/AllUsers";
 import Profile from "./Pages/Dashboard/UserDashboard/Profile";
 import Orders from "./Pages/Dashboard/UserDashboard/Orders";
+import AdminProducts from "./Pages/Dashboard/AdminDashboard/AdminProducts";
+import UpdateProduct from "./Pages/Dashboard/AdminDashboard/UpdateProduct";
+import CreateProduct from "./Pages/Dashboard/AdminDashboard/CreateProduct";
+import AdminUsers from "./Pages/Dashboard/AdminDashboard/AdminUsers";
+import AdminCategories from "./Pages/Dashboard/AdminDashboard/AdminCategories";
+import SearchResults from "./Pages/SearchResults";
 
 const App = () => {
   return (
     <Routes>
+      <Route path="/search" element={<SearchResults/> } />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/signin" element={<Signin />} />
@@ -29,9 +33,11 @@ const App = () => {
       </Route>
       <Route path="/dashboard" element={<AdminRoute />}>
         <Route path="admin" element={<AdminDashboard />} />
-        <Route path="admin/create-category" element={<CreateCategory />} />
+        <Route path="admin/manage-category" element={<AdminCategories />} />
         <Route path="admin/create-product" element={<CreateProduct />} />
-        <Route path="admin/all-users" element={<AllUsers />} />
+        <Route path="admin/product/:id" element={<UpdateProduct/>} />
+        <Route path="admin/manage-product" element={<AdminProducts />} />
+        <Route path="admin/all-users" element={<AdminUsers />} />
       </Route>
       <Route path="/" element={<Home />} />
       <Route path="/products" element={<Products />} />

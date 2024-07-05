@@ -1,20 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "/Logo.png";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../Api/authContext";
 import toast from "react-hot-toast";
 import axios from "axios";
 import ChevronRight from "/chevron-right.svg";
+import { useSearchContext } from "../../Api/searchContext";
 
 const Navbar = () => {
   const [homeActive, setHomeActive] = useState(false);
   const [productActive, setProductActive] = useState(false);
   const [auth, setAuth] = useAuthContext();
-  const [signedIn, setSignedIn] = useState(false);
+  const [values, setValues] = useSearchContext();
   const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
   const handleHover = () => {
     setOpen(!open);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3582/api/v1/products/search/${values.keywords}`
+      );
+      console.log(data);
+      setValues({ ...values, results: data });
+      navigate("/search");
+    } catch (error) {
+      console.error(error);
+      toast.error("Error while searching");
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem("auth");
     setAuth({
@@ -24,6 +43,7 @@ const Navbar = () => {
     });
     toast.success("Successfully logged out");
   };
+
   const handleDelete = async () => {
     try {
       const response = await axios.delete(
@@ -81,7 +101,6 @@ const Navbar = () => {
         <Link
           className="btn btn-ghost text-xl h-fit p-0 border-0 focus:transform-none animate-none focus-visible:outline-none active:hover:transform-none transition-none duration-0"
           to={"/"}
-          onClick={(event) => event.preventDefault()}
         >
           <img src={Logo} className="w-[280px]" />
         </Link>
@@ -128,23 +147,45 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
-      {!auth.user ? (
-        <div className="navbar-end space-x-5">
-          <NavLink
-            to={"/signin"}
-            className="rounded-lg px-4 py-2 hover:bg-black hover:text-white font-semibold hover:border-black border-2 bg-transparent border-black min-h-[2rem] transition-all duration-500"
-          >
-            Signin
-          </NavLink>
-          <NavLink
-            to={"/signup"}
+      <div className="navbar-center">
+        <form className="form-control flex-row mx-3" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Search"
+            className="input w-[300px!important] h-[48px!important] input-bordered md:w-auto mr-2"
+            required
+            value={values.keywords}
+            onChange={(e) => {
+              setValues({ ...values, keywords: e.target.value });
+            }}
+          />
+          <button
+            type="submit"
             className="rounded-lg px-4 py-2 border-2 hover:bg-white hover:border-black hover:text-black transition-colors ease-in duration-500 font-semibold border-black bg-black text-white min-h-[2rem]"
           >
-            Signup
-          </NavLink>
-        </div>
-      ) : (
-        <div className="navbar-end space-x-5">
+            Search
+          </button>
+        </form>
+      </div>
+      <div className="navbar-end space-x-5">
+        <div className="hidden lg:flex mr-5"></div>
+        {!auth.user ? (
+          <>
+            {" "}
+            <NavLink
+              to={"/signin"}
+              className="rounded-lg px-4 py-2 hover:bg-black hover:text-white font-semibold hover:border-black border-2 bg-transparent border-black min-h-[2rem] transition-all duration-500"
+            >
+              Signin
+            </NavLink>
+            <NavLink
+              to={"/signup"}
+              className="rounded-lg px-4 py-2 border-2 hover:bg-white hover:border-black hover:text-black transition-colors ease-in duration-500 font-semibold border-black bg-black text-white min-h-[2rem]"
+            >
+              Signup
+            </NavLink>
+          </>
+        ) : (
           <div
             className="dropdown dropdown-hover"
             onMouseEnter={handleHover}
@@ -198,8 +239,8 @@ const Navbar = () => {
               </li>
             </ul>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
