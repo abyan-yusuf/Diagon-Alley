@@ -85,11 +85,11 @@ export const loginUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const { id } = req.params
-    const deleteUser = await User.findByIdAndDelete(id)
-    res.status(200).send({message:"Successfully deleted user"})
+    const { id } = req.params;
+    const deleteUser = await User.findByIdAndDelete(id);
+    res.status(200).send({ message: "Successfully deleted user" });
   } catch (error) {
-    res.status(404).send({error})
+    res.status(404).send({ error });
   }
 };
 
@@ -148,5 +148,34 @@ export const getSecurityQuestion = async (req, res) => {
     res.status(200).send(user?.securityQuestion);
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const updateAccount = async (req, res) => {
+  try {
+    const { name, email, password, address, phone } = req.body;
+    const user = await User.findById(req.body.id);
+    if (password.length < 6) {
+      return res.status(404).send({
+        message: "Password should be more than 6 characters",
+      });
+    }
+    const updatedUser = await User.findByIdAndUpdate(
+      req.body.id,
+      {
+        name: name || user.name,
+        email: email || user.email,
+        phone: phone || user.phone,
+        address: address || user.address,
+        password: await hashPassword(password) || user.password,
+      },
+      { new: true }
+    );
+    return res
+      .status(200)
+      .send({ message: "Successfully updated your account!", updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
   }
 };

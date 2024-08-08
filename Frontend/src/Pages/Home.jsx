@@ -6,10 +6,11 @@ import ProductCard from "../Components/Card/ProductCard";
 import Spinner2 from "../Components/Loader/Spinner2";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../Prices";
+import useCategories from "../hooks/useCategories";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const categories = useCategories();
   const [loading, setLoading] = useState(true);
   const [checked, setChecked] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
@@ -24,24 +25,11 @@ const Home = () => {
         `http://localhost:3582/api/v1/products/products-list/${page}`
       );
       setProducts(data);
-      console.log(data)
+      console.log(data);
       setLoading(false);
     } catch (error) {
       console.log(error);
       toast.error("Error while fetching all products");
-    }
-  };
-
-  const getAllCategories = async () => {
-    try {
-      setLoading(true);
-      const { data } = await axios.get(
-        "http://localhost:3582/api/v1/categories/categories"
-      );
-      setCategories(data.category);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -76,7 +64,6 @@ const Home = () => {
 
   useEffect(() => {
     getTotalProducts();
-    getAllCategories();
   }, []);
 
   useEffect(() => {
@@ -94,7 +81,7 @@ const Home = () => {
         all.push(id);
       } else {
         all = all.filter((c) => c !== id);
-        setIsFiltered(false)
+        setIsFiltered(false);
       }
       setChecked(all);
     } catch (error) {
@@ -180,7 +167,7 @@ const Home = () => {
             ) : products.length === 0 ? (
               <p className="font-medium">Sorry, no products found</p>
             ) : (
-              <div className="grid grid-cols-3 gap-6">
+              <div className="grid grid-cols-4 gap-6">
                 {products.map((product) => (
                   <ProductCard
                     key={product._id}

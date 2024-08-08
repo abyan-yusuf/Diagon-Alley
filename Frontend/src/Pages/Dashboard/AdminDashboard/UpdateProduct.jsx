@@ -5,13 +5,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../../../Api/authContext";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../../../Components/Loader/Spinner";
+import useCategories from "../../../hooks/useCategories";
 
 const AdminProducts = () => {
   const navigate = useNavigate();
-
-  const [categories, setCategories] = useState([]);
+  const categories = useCategories()
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [auth] = useAuthContext();
@@ -97,22 +97,6 @@ const AdminProducts = () => {
       toast.error("Something went wrong");
     }
   };
-
-  const getAllCategories = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3582/api/v1/categories/categories"
-      );
-      console.log(response.data.category);
-      setCategories(response.data.category);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getAllCategories();
-  }, []);
 
   if (!product) {
     return <Spinner />;

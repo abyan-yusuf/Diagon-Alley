@@ -6,9 +6,10 @@ import CategoryForm from "../../../Components/Form/CategoryForm";
 import toast from "react-hot-toast";
 import { useAuthContext } from "../../../Api/authContext";
 import { Modal } from "antd";
+import useCategories from "../../../hooks/useCategories";
 
 const AdminCategories = () => {
-  const [categories, setCategories] = useState([]);
+  const categories = useCategories()
   const [auth] = useAuthContext();
   const [name, setName] = useState("");
   const [selected, setSelected] = useState({});
@@ -82,22 +83,6 @@ const AdminCategories = () => {
       toast.error(error.response.data.message);
     }
   };
-
-  const getAllCategories = async () => {
-    try {
-      const response = await axios.get(
-        "http://localhost:3582/api/v1/categories/categories"
-      );
-      console.log(response.data.category);
-      setCategories(response.data.category);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getAllCategories();
-  }, []);
 
   return (
     <Layout>

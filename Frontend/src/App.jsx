@@ -18,11 +18,15 @@ import CreateProduct from "./Pages/Dashboard/AdminDashboard/CreateProduct";
 import AdminUsers from "./Pages/Dashboard/AdminDashboard/AdminUsers";
 import AdminCategories from "./Pages/Dashboard/AdminDashboard/AdminCategories";
 import SearchResults from "./Pages/SearchResults";
+import ProductDetails from "./Pages/ProductDetails";
+import CategoryProducts from "./Pages/CategoryProducts";
+import Cart from "./Pages/Cart";
 
 const App = () => {
   return (
     <Routes>
-      <Route path="/search" element={<SearchResults/> } />
+      <Route path="/details/:id" element={<ProductDetails />} />
+      <Route path="/search" element={<SearchResults />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/signin" element={<Signin />} />
@@ -35,11 +39,13 @@ const App = () => {
         <Route path="admin" element={<AdminDashboard />} />
         <Route path="admin/manage-category" element={<AdminCategories />} />
         <Route path="admin/create-product" element={<CreateProduct />} />
-        <Route path="admin/product/:id" element={<UpdateProduct/>} />
+        <Route path="admin/product/:id" element={<UpdateProduct />} />
         <Route path="admin/manage-product" element={<AdminProducts />} />
         <Route path="admin/all-users" element={<AdminUsers />} />
       </Route>
       <Route path="/" element={<Home />} />
+      <Route path="/category/:cid" element={<CategoryProducts />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/products" element={<Products />} />
       <Route path="*" element={<NotFound />} />
     </Routes>

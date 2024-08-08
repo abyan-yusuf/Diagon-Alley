@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     address: {
-      type: String,
+      type: {},
       required: true,
     },
     securityQuestion: {

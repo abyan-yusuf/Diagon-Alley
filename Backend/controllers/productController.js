@@ -1,6 +1,18 @@
 import fs from "fs";
 import Products from "../models/productsModel.js";
+import Category from "../models/categoryModel.js";
+import Order from "../models/orderModel.js";
 import slugify from "slugify";
+import braintree from "braintree";
+import dotenv from "dotenv";
+dotenv.config();
+
+var gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: process.env.BRAINTREE_MERCHANT_ID,
+  publicKey: process.env.BRAINTREE_PUBLIC_KEY,
+  privateKey: process.env.BRAINTREE_PRIVATE_KEY,
+});
 
 export const createProduct = async (req, res) => {
   try {
@@ -102,7 +114,7 @@ export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
     const singleProduct = await Products.findById(id)
-      .select("-image")
+      .select("name price desc category quantity shipping")
       .populate("category");
     return res.status(201).send({
       message: "Single Product",
@@ -178,7 +190,7 @@ export const getTotal = async (req, res) => {
 
 export const getProductsList = async (req, res) => {
   try {
-    const perPage = 6;
+    const perPage = 8;
     const pageNo = req.params.page ? req.params.page : 1;
 
     const products = await Products.find({})
@@ -207,5 +219,85 @@ export const searchProducts = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.send(error);
+  }
+};
+
+export const getRelatedProducts = async (req, res) => {
+  try {
+    const { cid } = req.params;
+
+    const relatedProducts = await Products.find({
+      category: cid,
+    })
+      .select("name desc price _id")
+      .limit(4);
+
+    res.status(200).send({ relatedProducts });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+};
+
+export const getProductByCategory = async (req, res) => {
+  try {
+    const { cid } = req.params;
+    if (cid) {
+      const category = await Category.findById(cid).select("name");
+      const products = await Products.find({ category: cid });
+      res.status(200).send({ products, category });
+    } else {
+      res.status(500).send({ message: "Category Id is required" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.send(error);
+  }
+};
+
+export const generateBraintreeToken = async (req, res) => {
+  try {
+    gateway.clientToken.generate({}, function (err, response) {
+      if (err) {
+        res.status(500).send(err);
+      } else {
+        res.send(response);
+      }
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
+  }
+};
+
+export const braintreePayment = async (req, res) => {
+  try {
+    const { cartData, nonce } = req.body;
+    let total = 0;
+    cartData.map((i) => (total += i.price));
+    let newTransaction = gateway.transaction.sale(
+      {
+        amount: total,
+        paymentMethodNonce: nonce,
+        options: {
+          submitForSettlement: true,
+        },
+      },
+      (error, result) => {
+        if (result) {
+          const order = new Order({
+            products: cart,
+            payment: result,
+            buyer: req.user._id,
+          }).save();
+          res.json({ ok: true });
+        } else {
+          res.status(500).send(error);
+        }
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
   }
 };

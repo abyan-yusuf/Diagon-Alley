@@ -66,11 +66,11 @@ const Signin = () => {
             Sign in to your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600 ">
-            Don&apos;t have an account?
+            Don&apos;t have an account? {"  "}
             <Link
               to="/signup"
               title=""
-              className="font-semibold text-black transition-all duration-200 hover:underline"
+              className="font-semibold text-black hover:underline"
             >
               Create account
             </Link>

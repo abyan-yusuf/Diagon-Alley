@@ -9,7 +9,7 @@ const SearchResults = () => {
     <Layout titleText={`Search Results | Found ${values.results.length}`}>
       <h1 className="text-4xl font-bold text-center mt-5">Search Results</h1>
       <p className="text-center text-lg my-3">Found {values.results.length}</p>
-      <div className="grid grid-cols-3 gap-6 mx-10">
+      <div className="grid grid-cols-4 gap-6 mx-10">
         {values.results.map((value) => (
           <ProductCard
             key={value._id}

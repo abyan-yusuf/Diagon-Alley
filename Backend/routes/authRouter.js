@@ -6,6 +6,7 @@ import {
   deleteUser,
   forgotPassword,
   getSecurityQuestion,
+  updateAccount,
 } from "../controllers/authController.js";
 import { isAdmin, requireSignin } from "../middlewares/authMiddleware.js";
 
@@ -31,5 +32,6 @@ router.get("/admin-auth", requireSignin, isAdmin, (req, res) => {
     res.status(404).send({ error });
   }
 });
+router.put("/update", updateAccount)
 
 export default router;

@@ -4,9 +4,9 @@ import { NavLink } from "react-router-dom";
 const UserMenu = () => {
   return (
     <>
+      <ul className="menu w-1/4 h-full p-0 overflow-y-scroll no-scrollbar fixed border-r-2 pt-5">
       <h1 className="text-2xl text-center mb-3">User Menu</h1>
-      <ul className="menu w-full p-0">
-        <li className="border-2 border-b-0">
+        <li className="border-b-2">
           <NavLink
             to={"/dashboard/user/profile"}
             className={({ isActive }) =>
@@ -19,7 +19,7 @@ const UserMenu = () => {
             My Profile
           </NavLink>
         </li>
-        <li className="border-2">
+        <li className="border-b-2">
           <NavLink
             to={"/dashboard/user/orders"}
             className={({ isActive }) =>

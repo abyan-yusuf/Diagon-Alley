@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Logo from "/Logo.png";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../Api/authContext";
@@ -6,17 +6,25 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import ChevronRight from "/chevron-right.svg";
 import { useSearchContext } from "../../Api/searchContext";
+import useCategories from "../../hooks/useCategories";
+import { useCartContext } from "../../Api/cartContext";
 
 const Navbar = () => {
   const [homeActive, setHomeActive] = useState(false);
-  const [productActive, setProductActive] = useState(false);
   const [auth, setAuth] = useAuthContext();
   const [values, setValues] = useSearchContext();
+  const [cartData] = useCartContext()
   const [open, setOpen] = useState(true);
+  const [categoryOpen, setCategoryOpen] = useState(true);
   const navigate = useNavigate();
+  const categories = useCategories();
 
   const handleHover = () => {
     setOpen(!open);
+  };
+
+  const handleCategoryHover = () => {
+    setCategoryOpen(!categoryOpen);
   };
 
   const handleSubmit = async (e) => {
@@ -66,6 +74,7 @@ const Navbar = () => {
       console.log(error);
     }
   };
+
   return (
     <div className="navbar bg-base-100 border-b-2 shadow-lg z-50">
       <div className="navbar-start">
@@ -100,59 +109,58 @@ const Navbar = () => {
         </div>
         <Link
           className="btn btn-ghost text-xl h-fit p-0 border-0 focus:transform-none animate-none focus-visible:outline-none active:hover:transform-none transition-none duration-0"
-          to={"/"}
+          onClick={() => {
+            navigate("/");
+            window.location.reload();
+          }}
         >
           <img src={Logo} className="w-[280px]" />
         </Link>
+      </div>
+      <div className="navbar-center">
         <div className="hidden lg:flex">
           <ul className="menu menu-horizontal px-1 space-x-2">
-            <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) => {
-                  setHomeActive(isActive);
-                  return [
-                    isActive ? `bg-opacity-[0!important] text-black` : ``,
-                    "font-bold focus:bg-[transparent!important] active:text-[black!important] hover:bg-transparent transition-all border-0 ease-in-out outline-none duration-500 group flex w-20 flex-wrap justify-center text-[16px]",
-                  ].join(" ");
-                }}
-              >
-                Home
+            <li className="flex items-center flex-row h-full w-auto ml-[0!important] mr-[0!important]">
+              <div className="p-0">
                 <div
-                  className={`h-[3px] p-0 w-12 group-hover:animate-bounce group-hover:opacity-100 bg-black transition-opacity ease-in-out duration-1000 absolute top-8 ${
-                    homeActive ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/products"
-                className={({ isActive }) => {
-                  setProductActive(isActive);
-                  return [
-                    isActive ? `bg-opacity-[0!important] text-black` : ``,
-                    "font-bold focus:bg-[transparent!important] active:text-[black!important] hover:bg-transparent transition-all border-0 ease-in-out outline-none duration-500 group flex w-20 flex-wrap justify-center text-[16px]",
-                  ].join(" ");
-                }}
-              >
-                Products
-                <div
-                  className={`h-[3px] p-0 w-20 ease-in-out group-hover:animate-bounce group-hover:opacity-100 bg-black transition-opacity duration-1000 absolute top-8 ${
-                    productActive ? "opacity-100" : "opacity-0"
-                  }`}
-                />
-              </NavLink>
+                  className="dropdown dropdown-hover visited:bg-[transparent!important]"
+                  onMouseEnter={handleCategoryHover}
+                  onMouseLeave={handleCategoryHover}
+                >
+                  <div className="btn mt-1 h-min min-h-0 p-0.5 px-1 bg-transparent border-none shadow-none hover:bg-[transparent!important] text-base font-bold">
+                    <img
+                      src={ChevronRight}
+                      width={20}
+                      className={
+                        categoryOpen
+                          ? "rotate-0 transition-transform duration-500"
+                          : "rotate-90 transition-transform duration-500"
+                      }
+                    />
+                    Categories
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-36"
+                  >
+                    {categories.map((c) => (
+                      <li key={c._id}>
+                        <NavLink to={`/category/${c._id}`} className="">
+                          {c.name}
+                        </NavLink>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </li>
           </ul>
         </div>
-      </div>
-      <div className="navbar-center">
         <form className="form-control flex-row mx-3" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Search"
-            className="input w-[300px!important] h-[48px!important] input-bordered md:w-auto mr-2"
+            className="input w-[35rem!important] h-12 input-bordered md:w-auto mr-2"
             required
             value={values.keywords}
             onChange={(e) => {
@@ -161,7 +169,7 @@ const Navbar = () => {
           />
           <button
             type="submit"
-            className="rounded-lg px-4 py-2 border-2 hover:bg-white hover:border-black hover:text-black transition-colors ease-in duration-500 font-semibold border-black bg-black text-white min-h-[2rem]"
+            className="rounded-lg px-4 py-2 border-2 h-12 hover:bg-white hover:border-black hover:text-black transition-colors ease-in duration-500 font-semibold border-black bg-black text-white min-h-[2rem]"
           >
             Search
           </button>
@@ -169,6 +177,29 @@ const Navbar = () => {
       </div>
       <div className="navbar-end space-x-5">
         <div className="hidden lg:flex mr-5"></div>
+        <NavLink className="m-[0!important]" to={"/cart"}>
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+            <div className="indicator">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
+              </svg>
+              <span className="badge badge-sm indicator-item">
+                {cartData.length}
+              </span>
+            </div>
+          </div>
+        </NavLink>
         {!auth.user ? (
           <>
             {" "}
@@ -186,59 +217,61 @@ const Navbar = () => {
             </NavLink>
           </>
         ) : (
-          <div
-            className="dropdown dropdown-hover"
-            onMouseEnter={handleHover}
-            onMouseLeave={handleHover}
-          >
+          <>
             <div
-              tabIndex={0}
-              role="button"
-              className="btn m-1 bg-transparent border-none shadow-none hover:bg-transparent text-base font-semibold"
+              className="dropdown dropdown-hover m-[0!important]"
+              onMouseEnter={handleHover}
+              onMouseLeave={handleHover}
             >
-              <img
-                src={ChevronRight}
-                width={20}
-                className={
-                  open
-                    ? "rotate-0 transition-transform"
-                    : "rotate-90 transition-transform"
-                }
-              />
-              {auth?.user?.name}
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn m-1 bg-transparent border-none shadow-none hover:bg-transparent text-base font-semibold"
+              >
+                <img
+                  src={ChevronRight}
+                  width={20}
+                  className={
+                    open
+                      ? "rotate-0 transition-transform"
+                      : "rotate-90 transition-transform"
+                  }
+                />
+                {auth?.user?.name}
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box "
+              >
+                <li>
+                  <NavLink
+                    to={`/dashboard/${auth?.user?.admin ? `admin` : `user`}`}
+                    className={"font-medium"}
+                  >
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/signin"}
+                    onClick={handleLogout}
+                    className="text-red-700 font-medium"
+                  >
+                    Logout
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to={"/signin"}
+                    onClick={handleDelete}
+                    className="text-red-700 font-medium"
+                  >
+                    Delete Account
+                  </NavLink>
+                </li>
+              </ul>
             </div>
-            <ul
-              tabIndex={0}
-              className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box "
-            >
-              <li>
-                <NavLink
-                  to={`/dashboard/${auth?.user?.admin ? `admin` : `user`}`}
-                  className={"font-medium"}
-                >
-                  Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"/signin"}
-                  onClick={handleLogout}
-                  className="text-red-700 font-medium"
-                >
-                  Logout
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to={"/signin"}
-                  onClick={handleDelete}
-                  className="text-red-700 font-medium"
-                >
-                  Delete Account
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+          </>
         )}
       </div>
     </div>
