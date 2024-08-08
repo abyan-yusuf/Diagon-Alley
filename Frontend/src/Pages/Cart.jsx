@@ -17,7 +17,7 @@ const Cart = () => {
   const getClientToken = async () => {
     try {
       const { data } = await axios.get(
-        "https://diagon-alley-p4xm.onrender.com/api/v1/products/braintree/token"
+        "http://localhost:3582/api/v1/products/braintree/token"
       );
       setClientToken(data?.clientToken);
       console.log(data?.clientToken);
