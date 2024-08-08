@@ -11,7 +11,7 @@ const AdminRoute = () => {
     useEffect(() => {
       const authCheck = async (token) => {
         const res = await axios.get(
-          "http://localhost:3582/api/v1/users/admin-auth",
+          "https://diagon-alley-p4xm.onrender.com/api/v1/users/admin-auth",
           {
             headers: {
               Authorization: token,

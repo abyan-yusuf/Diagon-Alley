@@ -18,7 +18,7 @@ const ForgotPassword = () => {
       const data = { email, securityAnswer, newPassword };
       console.log(data);
       const resetPassword = await axios.post(
-        "http://localhost:3582/api/v1/users/forgot-password",
+        "https://diagon-alley-p4xm.onrender.com/api/v1/users/forgot-password",
         data
       );
       if (

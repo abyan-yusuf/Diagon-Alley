@@ -22,7 +22,7 @@ const Home = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:3582/api/v1/products/products-list/${page}`
+        `https://diagon-alley-p4xm.onrender.com/api/v1/products/products-list/${page}`
       );
       setProducts(data);
       console.log(data);
@@ -33,10 +33,26 @@ const Home = () => {
     }
   };
 
+<<<<<<< HEAD
+=======
+  const getAllCategories = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        "https://diagon-alley-p4xm.onrender.com/api/v1/categories/categories"
+      );
+      setCategories(data.category);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+>>>>>>> 2bbbd073cf8f04e2ce46e2174634364760c8e042
   const getTotalProducts = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:3582/api/v1/products/total"
+        "https://diagon-alley-p4xm.onrender.com/api/v1/products/total"
       );
       setTotal(data.total);
     } catch (error) {
@@ -48,7 +64,7 @@ const Home = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `http://localhost:3582/api/v1/products/products-list/${page}`
+        `https://diagon-alley-p4xm.onrender.com/api/v1/products/products-list/${page}`
       );
       setProducts([...products, ...data]);
       setLoading(false);
@@ -94,7 +110,7 @@ const Home = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:3582/api/v1/products/filter",
+        "https://diagon-alley-p4xm.onrender.com/api/v1/products/filter",
         { checked, radio }
       );
       setProducts(data.products);
