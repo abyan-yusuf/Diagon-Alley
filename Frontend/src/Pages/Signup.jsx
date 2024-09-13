@@ -16,7 +16,7 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3582/api/v1/users/register",
+        "https://diagon-alley-p4xm.onrender.com/api/v1/users/register",
         {
           name: data?.name,
           email: data?.email,
