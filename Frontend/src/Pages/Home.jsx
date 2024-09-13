@@ -11,7 +11,7 @@ import useCategories from "../hooks/useCategories";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const categories = useCategories();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
   const [checked, setChecked] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
   const [radio, setRadio] = useState([]);
