@@ -20,7 +20,7 @@ const AdminProducts = () => {
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:3582/api/v1/products/${id}`
+        `http://localhost:3582/api/v1/products/single/${id}`
       );
       console.log(data.singleProduct);
       setProduct(data.singleProduct);
